@@ -1,14 +1,33 @@
 from ibm_wmla import DeepLearningImpactResTfulApIsV1
 from ibm_wmla import DeepLearningImpactResTfulApIsV2
 
+ARGS_V1 = ""
+ARGS_V2 = ""
+
 class Training(object):
     def __init__(self, connection):
         self.conn = connection
 
-    def train(self, model_train_func):
+    def train(self, model_train_func, framework=None, gpus_per_worker, num_workers):
+        
+        pickle.save("/tmp/model_func.pickle", model_train_func)
+        
+        args = 
 
 
-        pass
+        pas
+        
+    def _find_modules(self, func):
+        
+    def _find_module_path(self, module):
+        module.__file__ ## should provide the path 
+        os.path.dirname(__file__) ## returns abs path 
+        
+    
+    def _create_tar(self):
+    
+    
+    
 
     def dist_train(self):
         pass
