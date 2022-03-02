@@ -20,8 +20,8 @@ class Inference(object):
     def create_model_json(self):
         pass
 
-    def create_kernel(self):
-
+    def create_kernel(self, get_model_files_func, load_model_func, pre
+    process_input_func, inference_func, responce_output_func, clean_up_func):
         # Need a template class that inserts specifics into the kernel.py file
 
 
