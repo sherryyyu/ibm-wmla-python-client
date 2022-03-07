@@ -8,7 +8,7 @@ class Inference(object):
     def __init__(self, connection):
         self.conn = connection
 
-    def edi_deployment(self, , framework=None, gpus_per_worker, num_workers):
+    def configure(self, framework=None, gpus_per_worker, num_workers):
 
         pickle.save("/tmp/model_func.pickle", model_train_func)
 
