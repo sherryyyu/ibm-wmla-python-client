@@ -2,43 +2,15 @@ from redhareapi import Kernel
 import json
 
 
-
-
-def preprocess(data, denoise=True, X_IMG_SIZE=500, Y_IMG_SIZE=400, **kwargs):
-    IMG_SIZE = kwargs.get("X_IMG_SIZE")
-    preprocess()
-    return processed_data
-
-def get_model(model_path):
-    if model_path == "URL":
-        download
-    else:
-        return model_path 
-
-def load_model(model_path):
-    model = load_tf_model(model_path)
-    return model
-
-
-def predict(model, prepocessed_data):
-    # Do stuff 
-    input_one = preprocessed_data[0]
-    model1, model2 = model
-    myown_special_predict_func(model1, model2, preprocessed_data)
-
-    return predicted_output
-
-input_structure = {"data": [1.2,3.2,4.5], "attributes": {"img_size": 500, "denoise": True}}
-
-
 class InferenceKernel(Kernel):
-    def __init__(self, get_model, load_model, preprocess, predict, postprocess, input_structure, output_structure, attributes):
+    def __init__(self, get_model, load_model, preprocess, predict, postprocess, input_structure = None, output_structure = None):
         self.get_model = get_model
         self.load_model = load_model 
         self.preprocess = preprocess ## function
         self.predict = predict
         self.postprocess = postprocess
         self.input_structure = input_structure
+        self.output_stucture = output_structure
 
     #def determine_types(dict_):
     #    type_structure = {}
@@ -56,29 +28,28 @@ class InferenceKernel(Kernel):
         else:
             return input_
 
-
-
-        ## Preprocess functions has an abitary number of inputs and outputs  
-
-
-
-    def wrapper_func(func): 
-        def new_func(input_data):
-            ## args =  [[1,2,3], [2,3,4]] *args data1 [1,2,3], data2 [2,3,4]
-            kwargs = input_data ## **kwargs = {data : [1,2,3], denoise:True, X_IMG_SIZE:500, Y_IMG_SIZE:400, depth=32}
-            return func(**kwargs)
-        return new_func
-
     def on_kernel_start(self, kernel_context):
 
+        InferenceKernel.log_info("Kernel Start")
+        InferenceKernel.log_info("Model Instance ID: " + kernel_context.get_instance_id())
+
         model_details = json.loads(kernel_context.get_model_description())
+        
+        InferenceKernel.log_info("Model Input Details: " +  json.dumps(model_details)
+        )
+
         model_path = model_details.get("model_path")
+        InferenceKernel.log_info("Model Path Details: " +  model_path)
+
         self.attributes = self._attributes_to_dict(model_details.get("attributes"))
+
+        InferenceKernel.log_info("Getting Model Path")
 
         try:
             model_path = self.get_model(model_path, **attributes)
+            InferenceKernel.log_info("New Model Path: " + model_path)
         except:
-            log("Failed to get path")
+            InferenceKernel.log_error("Failed to get model path")
         try:
             model = self.load_model()
         except:
