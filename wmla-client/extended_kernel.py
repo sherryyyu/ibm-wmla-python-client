@@ -38,18 +38,14 @@ class InferenceKernel(Kernel):
     def _flatten_tasks(self, task_context):
         data_list = []
         attributes_list = []
-        id_list = []
         while task_context:
             input_data = json.loads(task_context.get_input_data())
             attributes = self._add_attributes(input_data.get("attributes"), task_context)
             data = input_data.get("data")
-            id_ = input_data.get("id")
             data_list.append(data)
             attributes_list.append(attributes)
-            id_list.append(id_)
-
             task_context.next()
-        return data_list, attributes_list, id_list
+        return data_list, attributes_list
 
     def on_kernel_start(self, kernel_context):
 
@@ -86,35 +82,24 @@ class InferenceKernel(Kernel):
             
             ## data is a array of dictionaries 
             ## flatten tast_context 
-            # Expect input_data to have the form {"data": <data here>, "attributes": {<attributes>}, "id": <unique_id>}
-            data_list, attribute_list, id_list = self._flatten_tasks(task_context)
+            # Expect input_data to have the form {"data": <data here>, "attributes": {<attributes>}}
+            data_list, attribute_list = self._flatten_tasks(task_context)
 
             ## Data gets preprocesssed
-            preprocessed_data = self.preprocces(data_list, attribute_list, id_list)    
-            predicted_result = self.predict(self.model, preprocessed_data, attribute_list, id_list)
+            preprocessed_data = self.preprocces(data_list, attribute_list)    
+            predicted_result = self.predict(self.model, preprocessed_data, attribute_list)
 
-            output_data = self.postprocess(predicted_results, attribute_list, id_list))
+            output_data = self.postprocess(predicted_results, attribute_list))
 
             self.task_context.set_output_data(json.dumps(output_data))
         
         except Exception as e:
             InferenceKernel.log_error("-------------------------")
-            Vgg19Kernel.log_error( str(e) )
+            InferenceKernel.log_error( str(e) )
             task_context.set_output_data("Failed due to: " + str(e))
-            Vgg19Kernel.log_error("-------------------------")
-
-
-            ## Preprocessed data goes into predict of model
-            ## What is preprocessed_data (whats the format??)
+            InferenceKernel.log_error("-------------------------")
 
 
             
-
-
-            ## Output data gets postprocessed 
-
-            task_context.set_output_data(json.dumps(output_data))
-            task_context = task_context.next()
-        
 
 

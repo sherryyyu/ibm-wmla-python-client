@@ -1,5 +1,5 @@
 from ibm_wmla import DeepLearningImpactResTfulApIsV1
-from ibm_wmla import DeepLearningImpactResTfulApIsV2
+from ibm_wmla import ElasticDistributedInferenceV2
 
 ARGS_V1 = ""
 ARGS_V2 = ""
