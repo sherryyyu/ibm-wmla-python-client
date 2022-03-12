@@ -25,12 +25,11 @@ class Connection(object):
             self.service_dli.configure_service(self.instance)
             self.service_dli.set_service_url(self.url)
             if self.edi:
-                authenticator = BasicAuthenticator(self.user, self.password)
+                edi_authenticator = EDIAuthenticator(self.user, self.password, self.edi_url)
                 self.service_edi = ElasticDistributedInferenceV2(
-                        authenticator=authenticator)
+                        authenticator=edi_authenticator)
                 self.service_edi.configure_service(self.instance)
                 self.service_edi.set_service_url(self.edi_url)
-                self.edi_token =  self.service_edi.get_auth_token()
         elif self.apikey:
             # in the constructor, assuming control of managing the token
             authenticator = BearerTokenAuthenticator(self.apikey)

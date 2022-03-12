@@ -5,8 +5,32 @@ ARGS_V1 = ""
 ARGS_V2 = ""
 
 class Inference(object):
-    def __init__(self, connection):
-        self.conn = connection
+    def __init__(self, connection, model_name):
+        self.conn = connection.service_edi
+        self.model_name = model_name
+        self.deployed, self.details = self.get_model_details()
+
+        ## get model details
+    
+    def get_model_details(self):
+        model_details = self.conn.get_model(self.model_name)
+        model_profile = self.conn.get_model_profile(self.model_name) 
+        return model_details, model_profile
+
+    def get_model_deployed(self):
+        ## lift models first and g check lift
+
+        deployed_model_list = self.conn.list_models()
+        if self.model_name in deployed_model_list:
+            return True
+
+        else:
+            return False
+
+        
+
+    def deploy(self, ):
+
 
     def configure(self, framework=None, gpus_per_worker, num_workers):
 
