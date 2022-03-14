@@ -8,7 +8,7 @@ class Inference(object):
     def __init__(self, connection, model_name):
         self.conn = connection.service_edi
         self.model_name = model_name
-        self.deployed, self.details = self.get_model_details()
+        
 
         ## get model details
     
@@ -23,13 +23,41 @@ class Inference(object):
         deployed_model_list = self.conn.list_models()
         if self.model_name in deployed_model_list:
             return True
-
         else:
-            return False
+            return False   
+
+    def deploy(self, kernel, model_json, readme, paths):
+        if isinstance(kernel, String) or isinstance(kernel, os.Path):
+            copyfiles
+        elif:
+            generate_files
+            
+            copyfiles
+        else:
+            error
+
+        tar_files
+        if not get_model_deployed():
+            try: 
+                deploy_responce = sdk.deploy(self.model_name, files)
+            except:
+                print("failed")
+        else:
+             print("model deployed please refrlppy instead")
+
+    def start(self):
+        if self.get_model_deployed():
+            responce = 
+            service_edi.start(self.model_name))
+        else:
+            print("no model named ___ deployed")
+
+    def stop(self):
 
         
+        # step one is create the tar
+        #step two is Deploy
 
-    def deploy(self, ):
 
 
     def configure(self, framework=None, gpus_per_worker, num_workers):
