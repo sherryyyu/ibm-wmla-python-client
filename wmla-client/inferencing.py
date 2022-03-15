@@ -1,5 +1,10 @@
 from ibm_wmla import DeepLearningImpactResTfulApIsV1
 from ibm_wmla import ElasticDistributedInferenceV2
+import os
+import tempfile
+import shutil
+
+
 
 ARGS_V1 = ""
 ARGS_V2 = ""
@@ -8,27 +13,35 @@ class Inference(object):
     def __init__(self, connection, model_name):
         self.conn = connection.service_edi
         self.model_name = model_name
-        
-
-        ## get model details
     
     def get_model_details(self):
-        model_details = self.conn.get_model(self.model_name)
-        model_profile = self.conn.get_model_profile(self.model_name) 
+        model_details = self.conn.get_model(self.model_name).result() 
+        model_profile = self.conn.get_model_profile(self.model_name).result() 
         return model_details, model_profile
 
     def get_model_deployed(self):
         ## lift models first and g check lift
-
-        deployed_model_list = self.conn.list_models()
+        deployed_model_list = self.conn.get_models().result() 
         if self.model_name in deployed_model_list:
             return True
         else:
             return False   
 
+    def _copyfiles(self, paths):
+        temp_path = tempfile.mkdtemp()
+        for path in list_paths:
+            try:
+                shutil.copy(path, temp_path )
+            except:
+                print("Failed to copy file")
+                break
+
+    def _generate_files(self, objects):
+
+
     def deploy(self, kernel, model_json, readme, paths):
         if isinstance(kernel, String) or isinstance(kernel, os.Path):
-            copyfiles
+            self._copyfiles()
         elif:
             generate_files
             
@@ -47,7 +60,6 @@ class Inference(object):
 
     def start(self):
         if self.get_model_deployed():
-            responce = 
             service_edi.start(self.model_name))
         else:
             print("no model named ___ deployed")
