@@ -1,7 +1,6 @@
 from redhareapi import Kernel
 import json
 
-
 class InferenceKernel(Kernel):
     def __init__(self, get_model, load_model, preprocess, predict, postprocess, input_structure = None, output_structure = None):
         self.get_model = get_model
@@ -11,7 +10,54 @@ class InferenceKernel(Kernel):
         self.postprocess = postprocess
         self.input_structure = input_structure
         self.output_stucture = output_structure
+    
+    def install_modules(self):
+        pass
+    
+    def load_modules(self):
+        pass
 
+    def get_model(self, model_path, **kwargs):
+        return model_path
+    
+    def load_model(self, model_path, **kwargs):
+        ## load_model_code
+        pass
+
+    def preprocces(self, data_list, attribute_list, model = None, **kwargs):
+        ## preprocessing code here
+        pass
+
+    def postprocess(self, predicted_results, attribute_list, **kwargs):
+        pass
+
+    def predict_func(self, model, batched_data, batched_attributes, **kwargs):
+        pass
+
+
+    def predict(self, model, preprocessed_data, attribute_list, **kwargs):
+        if kwargs.get("batch_size") is not None:
+            batch_size = kwargs.get("batch_size")
+            data_len = len(preprocessed_data)
+            cycles = int(data_len / kwargs.get("batch_size"))
+            batched_data = []
+            batched_attributes = []
+            for a in range(0, cycles):
+                batch_min_slice = a*batch_size
+                batch_max_slice = (a+1)*batch_size
+                batched_data.append(preprocessed_data[batch_min_slice, batch_max_slice])
+                batched_attributes.append(attribute_list[batch_min_slice, batch_max_slice])
+        else:
+            batched_data = preprocessed_data
+            batched_attributes = attribute_list
+        
+        batched_combined = zip(batched_data, batched_attributes)
+        for data, attributes in batched_combined:
+            predicted_output = self.predict(model, data, attributes, **kwargs)
+            postprocessed_output = self.postprocess(predicted_output, attributes, **kwargs)
+            self.task_context.set_output_data(json.dumps(output_data))
+
+ 
     #def determine_types(dict_):
     #    type_structure = {}
     #    if isinstance(dict_, dict):
@@ -28,10 +74,38 @@ class InferenceKernel(Kernel):
         else:
             return input_
 
+    def _add_attributes(self, dict_, task_context):
+        dict_["Version"] = task_context.get_version()
+        dict_["Model Name"] = task_context.get_model_name()
+        dict_["Task ID"] = task_context.get_id()
+        dict_["Session ID"] = task_context.get_session_id()
+        return dict_
+
+    def _flatten_tasks(self, task_context):
+        data_list = []
+        attributes_list = []
+        while task_context:
+            input_data = json.loads(task_context.get_input_data())
+            attributes = self._add_attributes(input_data.get("attributes"), task_context)
+            data = input_data.get("data")
+            data_list.append(data)
+            attributes_list.append(attributes)
+            task_context.next()
+        return data_list, attributes_list
+
     def on_kernel_start(self, kernel_context):
 
         InferenceKernel.log_info("Kernel Start")
         InferenceKernel.log_info("Model Instance ID: " + kernel_context.get_instance_id())
+
+        try: 
+            self.install_modules()
+            self.import_modules()
+        except Exception as e:
+            InferenceKernel.log_error("-------------------------")
+            InferenceKernel.log_error( str(e) )
+            task_context.set_output_data("Failed due to: " + str(e))
+            InferenceKernel.log_error("-------------------------")
 
         model_details = json.loads(kernel_context.get_model_description())
         
@@ -51,45 +125,33 @@ class InferenceKernel(Kernel):
         except:
             InferenceKernel.log_error("Failed to get model path")
         try:
-            model = self.load_model()
+            self.model = self.load_model(model_path, **self.attributes)
         except:
-            log("could not load")
+            InferenceKernel.log_error("Failed to load model")
 
-        
-
-
-    def on_task_invoke(self, task_context ):
-
-
-        ## data is a array of dictionaries 
-        
-        while task_context:
-
-            self.names
-            input_data = json.loads(task_context.get_input_data())
-            attributes = input_data.get("attributes")
-            input_data = input_data.get("data")
+    def on_task_invoke(self, task_context):
+        try:
+            ## Setup required empty lists to store data 
+            ## NOTE task context is an array of dicts 
+            ## Two ways to handle this: 1 - flatten data into a list and handle list. 2 - is to loop through the array 
+            
+            ## data is a array of dictionaries 
+            ## flatten tast_context 
+            # Expect input_data to have the form {"data": <data here>, "attributes": {<attributes>}}
+            data_list, attribute_list = self._flatten_tasks(task_context)
 
             ## Data gets preprocesssed
-
-
-
-            preprocessed_data = self.preprocces(data, **attributes)    
-            predicted_result = self.predict(model, preprocessed_data, **attributes)
-
-            output_data = self.postprocess(predicted_result, **attributes))
-
-            ## Preprocessed data goes into predict of model
-            ## What is preprocessed_data (whats the format??)
+            preprocessed_data = self.preprocces(data_list, attribute_list, model=self.model, **self.attributes)    
+            predicted_results = self.predict(self.model, preprocessed_data, attribute_list, **self.attributes)
+        
+        except Exception as e:
+            InferenceKernel.log_error("-------------------------")
+            InferenceKernel.log_error( str(e) )
+            task_context.set_output_data("Failed due to: " + str(e))
+            InferenceKernel.log_error("-------------------------")
 
 
             
 
-
-            ## Output data gets postprocessed 
-
-            task_context.set_output_data(json.dumps(output_data))
-            task_context = task_context.next()
-    
 
 
