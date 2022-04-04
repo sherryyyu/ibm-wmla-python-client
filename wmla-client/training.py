@@ -1,8 +1,36 @@
 from ibm_wmla import DeepLearningImpactResTfulApIsV1
 from ibm_wmla import DeepLearningImpactResTfulApIsV2
+import os
+import tempfile
+import shutil
+from distutils.dir_util import copy_tree
+
+
 
 ARGS_V1 = ""
 ARGS_V2 = ""
+
+class Training(object):
+    def __init__(self, connection, sig_name, dataset, framework):
+        self.conn = connection.service
+        self.sig_name = sig_name
+        self.framework = framework
+        self.dataset = dataset
+
+    def start(self):
+        pass
+
+
+
+    def configure(self, framework=None, gpus_per_worker, num_workers):
+
+        pickle.save("/tmp/model_func.pickle", model_train_func)
+
+        args =
+
+
+        pas
+
 
 class Training(object):
     def __init__(self, connection):
