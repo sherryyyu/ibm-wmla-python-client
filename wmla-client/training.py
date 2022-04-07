@@ -11,14 +11,53 @@ ARGS_V1 = ""
 ARGS_V2 = ""
 
 class Training(object):
-    def __init__(self, connection, sig_name, dataset, framework):
+    def __init__(self, connection, sig_name, dataset, result_dir, framework):
         self.conn = connection.service
         self.sig_name = sig_name
         self.framework = framework
         self.dataset = dataset
+        self.result_dir = result_dir
 
-    def start(self):
-        pass
+
+    def train(self, func, libs_path = None, poll_logs=False, **kwargs):
+        temp_path = tempfile.mkdtemp()
+
+        with open(temp_path + "/params.json", "w") as f:
+            json.dump(kwargs, f)
+
+        if libs_path:
+            copy_tree(libs_path, temp_path)
+
+        if isinstance(func, str):
+            shutil.copy(func, temp_path + "/train.py")
+
+        else:
+            with open(temp_path + "/func.pickle", "wb") as f: 
+                dill.dump(func, f)
+            
+            wmla_asset_path = wmla_client.__file__ + "/assets/train.py"
+            shutil.copy(wmla_asset_path, temp_path )
+
+        ##TODO ensure we dont use a GPU for this step
+        args_command = "--exec-start %s --model-main train.py --data_dir %s --result_dir %s" % (framework, self.dataset.data_dir, self.result_dir)
+
+        try: 
+            response = self.conn.create_exec(self.sig_name, args_command, temp_path + "/train.modelDir.tar" )
+
+            if not response.ok:
+                print('submit job failed: code=%s, %s'%(response.status_code, response.get_result()))
+
+            else:
+                if poll_logs:
+                    utils.query_job_status(response.get_results().get("ID"))
+        except:
+            print("Failed to submit request")
+
+
+        return response.get_result()
+
+
+
 
 
 

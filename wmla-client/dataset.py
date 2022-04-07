@@ -6,29 +6,34 @@ import shutil
 import json
 from distutils.dir_util import copy_tree
 import dill
+import utils
 import wmla_client
-import wmla_client.utils
 
 
 class Dataset(object):
-    def __init__(self, connection, sig_name):
+    def __init__(self, connection, sig_name, data_dir):
         self.conn = connection.service
-        self.sig_name
+        self.sig_name = sig_name
+        self.data_dir = data_dir         
 
-    def pull_to_wml(self, func, data_dir="data_dir", result_dir= "result_dir", poll_logs=False, **kwargs):
+    def download(self, func, poll_logs=False, **kwargs):
         temp_path = tempfile.mkdtemp()
 
         with open(temp_path + "/params.json", "w") as f:
             json.dump(kwargs, f)
 
-        with open(temp_path + "/func.pickle", "wb") as f: 
-            dill.dump(func, f)
+        if isinstance(func, str):
+            shutil.copy(func, temp_path + "/download.py")
+        
+        else:
+            with open(temp_path + "/func.pickle", "wb") as f: 
+                dill.dump(func, f)
 
         wmla_asset_path = wmla_client.__file__ + "/assets/download.py"
         shutil.copy(wmla_asset_path, temp_path )
 
         ##TODO ensure we dont use a GPU for this step
-        args_command = "--exec-start PyTorch --model-main download.py --data_dir %s --result_dir %s" % (data_dir, result_dir)
+        args_command = "--exec-start PyTorch --model-main download.py --data_dir %s" % (self.data_dir)
 
         try: 
             response = self.conn.create_exec(self.sig_name, args_command, temp_path + "/download.modelDir.tar" )
