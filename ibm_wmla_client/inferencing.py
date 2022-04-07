@@ -1,4 +1,4 @@
-from ibm_wmla import DeepLearningImpactResTfulApIsV1
+from ibm_wmla import DeepLearningImpactV1
 from ibm_wmla import ElasticDistributedInferenceV2
 import os
 import tempfile
