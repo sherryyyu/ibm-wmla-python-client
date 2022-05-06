@@ -1,0 +1,8 @@
+{
+    "name" : "mnist_model",
+    "tag" : "Image Classification",
+    "weight_path" : "./mnist_model",
+    "runtime" : "dlipy36",
+    "kernel_path" : "kernel.py",
+    "schema_version" : "1"
+}
