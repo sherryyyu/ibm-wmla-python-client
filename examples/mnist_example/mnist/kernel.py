@@ -1,24 +1,25 @@
 #!/usr/bin/env python
+
 import redhareapiversion
 from redhareapi import Kernel
 
-# import keras
-# from keras.applications.resnet50 import ResNet50
-# from keras.applications.resnet50 import decode_predictions
-import numpy as np
-import os, json, base64, time
-import tensorflow as tf
-
-class MnistModel(Kernel):
+class TestKernel(Kernel):
     def on_kernel_start(self, kernel_context):
         try:
             Kernel.log_info("kernel input: " + kernel_context.get_model_description())
+
+            import numpy as np
+            import os, json, base64, time
+            import tensorflow as tf
+            
             model_desc = json.loads(kernel_context.get_model_description())
             model_path = model_desc['model_path']
             if model_path == '':
                 model_path = os.getcwd()
             # os.chdir(model_path)
             Kernel.log_info("currect dir" + os.getcwd())
+
+            model_path = model_path + '/' + model_desc['weight_path']
 
             # Create Keras ResNet
             self.model = tf.keras.models.load_model(model_path)
@@ -37,7 +38,7 @@ class MnistModel(Kernel):
 
         except Exception as e:
             Kernel.log_error(str(e))
-
+            
     def on_task_invoke(self, task_context):
         try:
             start = time.time()
@@ -64,9 +65,6 @@ class MnistModel(Kernel):
             task_context.set_output_data(str(e))
             Kernel.log_error(str(e))
 
-    def on_kernel_shutdown(self):
-        Kernel.log_info('on_kernel_shutdown')
-
 if __name__ == '__main__':
-    obj_kernel = MnistModel()
-    obj_kernel.run()
+    ppkernel = TestKernel()
+    ppkernel.run()

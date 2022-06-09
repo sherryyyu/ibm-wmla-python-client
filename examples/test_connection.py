@@ -14,6 +14,5 @@ conn = edi_connection.service_edi
 
 print(conn.get_model("pingpongnew"))
 
-#res = conn.start_model_inference('pingpongnew')
-print(res)
+# res = conn.start_model_inference('pingpongnew')
 

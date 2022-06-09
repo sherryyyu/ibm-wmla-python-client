@@ -1,6 +1,6 @@
 {
-    "name" : "mnist_model",
-    "tag" : "Image Classification",
+    "name" : "pingpong4",
+    "tag" : "test",
     "weight_path" : "N/A",
     "runtime" : "python",
     "kernel_path" : "kernel.py",
