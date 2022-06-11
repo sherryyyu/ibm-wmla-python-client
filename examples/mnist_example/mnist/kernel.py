@@ -3,14 +3,16 @@
 import redhareapiversion
 from redhareapi import Kernel
 
+import numpy as np
+import os, json, base64, time
+import tensorflow as tf
+
 class TestKernel(Kernel):
     def on_kernel_start(self, kernel_context):
         try:
             Kernel.log_info("kernel input: " + kernel_context.get_model_description())
 
-            import numpy as np
-            import os, json, base64, time
-            import tensorflow as tf
+
             
             model_desc = json.loads(kernel_context.get_model_description())
             model_path = model_desc['model_path']
@@ -49,11 +51,12 @@ class TestKernel(Kernel):
                 img_id = input_data['id']
                 img_data = input_data['data']
 
+                img_data = np.asarray(img_data).astype('float32')
                 y_keras = self.model.predict(img_data)
                 
                 output_data = {}
                 output_data['key'] = img_id
-                output_data['data'] = y_keras
+                output_data['data'] = y_keras.tolist()
 
 
                 task_context.set_output_data(json.dumps(output_data))
