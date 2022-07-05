@@ -1,8 +1,8 @@
-# README of model pingpong
+# README of MNIST MODEL
 
 ## Summary
 
-This is a pingpong test which could be used for EDI networking performance test.
+This is a MNIST model that classifies hand-written digits.
 
 ## Input
 
