@@ -12,7 +12,7 @@ A python based client to simplify using Watson Machine Learning Accelerator
 To install the package for debugging (recommended for now):
 
 ```
-python setup.py install develop
+python setup.py develop
 ```
 
 To install the package:
