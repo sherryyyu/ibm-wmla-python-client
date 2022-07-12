@@ -4,6 +4,8 @@
 
 This is a MNIST model that classifies hand-written digits.
 
+# *** Below needs to be updated ****
+
 ## Input
 
 * Input format: json

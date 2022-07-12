@@ -4,8 +4,8 @@ import numpy as np
 
 service_url = "http://wmla-mgmt1.sls30lab.com:9000"
 service_instance = "ANZ-DLI-IG"
-username = "jbtang"
-password = "demoexec"
+username = "UNAME"
+password = "PASSWORD"
 
 edi_connection = Connection(service_url, service_instance, wmla_v1=True, edi=True,
                  apikey=None, username=username, password=password)
@@ -14,7 +14,13 @@ edi_connection.connect()
 
 conn = edi_connection.service_edi
 
-print(conn.get_model("pingpongnew"))
+# list models
+
+print(conn.get_models())
+
+model_name = "pingpongnew"
+
+print(conn.get_model(model_name))
 
 # res = conn.start_model_inference('pingpongnew')
 
