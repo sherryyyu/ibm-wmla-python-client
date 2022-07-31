@@ -1,4 +1,4 @@
-from ibm_wmla.wmla_api_v1 import DeepLearningImpactV1
+# from ibm_wmla.wmla_api_v1 import DeepLearningImpactV1
 from ibm_wmla.wmla_api_edi_v2 import ElasticDistributedInferenceV2
 from ibm_wmla.edi_authentication import ElasticDistributedInferenceAuthenticator
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
