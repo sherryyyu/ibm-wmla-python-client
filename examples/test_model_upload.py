@@ -31,7 +31,7 @@ def delete_model(model_name):
 
 def start_model(model_name):
     file_handle = open("mnist_example/mnist.tar", "rb")
-    result = conn.deploy_model(userfile=file_handle)
+    result = conn.deploy_model(userfile=file_handle, timeout = 300)
 
 
     response = conn.get_model_profile(model_name)
