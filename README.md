@@ -46,7 +46,7 @@ print(response.result)
 
 ## Testing WMLA service
 ```python
-from test_model_upload import delete_model, start_mode, infer
+from test_model_upload import delete_model, start_model, infer
 model_name = 'mnisttest'
 
 delete_model(model_name)
