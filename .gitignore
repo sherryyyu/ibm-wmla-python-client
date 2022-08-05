@@ -133,3 +133,5 @@ dmypy.json
 
 # Pycharm environemt directory
 .idea
+
+.ipynb_checkpoints/
