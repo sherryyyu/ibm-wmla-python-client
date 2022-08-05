@@ -3,37 +3,104 @@ A python based client to simplify using Watson Machine Learning Accelerator
 
 ## Prerequisites
 
-* Python 3.9 or above.
+* Python 3.5.3 or above.
 * [ibm_wmla](https://github.ibm.com/anz-tech-garage/wmla-python-sdk)
-* ibm-cloud-sdk-core > 
 
 
-## Installation (on CP4D enviroment)
+## Installation 
 
-Before installation, a user should add one bash script and three zip files to the project assets.
+To install the package for debugging (recommended for now):
 
-(in _examples/cp4d_ directory)
-* install_sdk.sh
+```
+python setup.py develop
+```
 
-(in _examples/cp4d/install_files_ directory)
-* ibm-cloud-sdk-core.zip
-* wmla-python-client-master.zip
-* wmla-python-sdk-master.zip
+To install the package:
 
+```
+pip install .
+```
 
-![zip files in project assets](imgs/project_assets.png)
+## Setting up WMLA service
+```python
+from ibm_wmla_client import Connection, update_model_profile_parameters
 
+service_url = "YOUR_SERVICE_URL:PORT"
+service_instance = "YOUR_INSTANCE_NAME"
+username = "YOUR_UNAME"
+password = "YOUR_PW"
 
-Add a new Jupyter Notebook to project
+edi_connection = Connection(service_url, service_instance, wmla_v1=True, edi=True,
+                 apikey=None, username=username, password=password)
 
-![add_jupyter_notebook](imgs/add_jupyter_notebook.png)
+edi_connection.connect()
 
-Detailed codes and more are found at install_python_client.ipynb.
-The notebook contains 
-(in _examples/cp4d_ directory)
+conn = edi_connection.service_edi
 
-<!-- 
-## Examples
+# List models
+response = conn.get_models()
+print(response.result)
+
+```
+<!-- * A simple example to [verify the connection](examples/test_connection.py) -->
+
+## Model Deployment and Inference
+```python
+model_name = "MODEL_NAME"
+model_tar_file_path = "MODEL_TAR_FILE_PATH"
+kernel_consumer_path = "KERNEL_CONSUMER_PATH"
+
+# Delete model
+conn.stop_model_inference(model_name) # stop a specific model
+conn.delete_model(model_name) # delete a specific model
+
+# Start model
+file_handle = open(model_tar_file_path, "rb")
+result = conn.deploy_model(userfile=file_handle, timeout = 300) # upload model package files
+response = conn.get_model_profile(model_name) # get application profile for a specific model
+model_profile = response.result
+update_model_profile_parameters(model_profile, 
+                                gpu_type='shared',
+                                kernel_resource_group='GPUHosts',
+                                kernel_consumer_path=kernel_consumer_path)
+print(model_profile)
+response = conn.update_model_profile(model_name, **model_profile) # update application profile for a specific model
+response = conn.start_model_inference(model_name) # start a specific model
+response = conn.get_model(model_name) # get a specific model
+print(response.result)
+response = conn.get_model_instance(model_name) # get a specific model instance information
+print(response.result)
+
+# Infer
+data = {'id': 0, 'data': x_test}
+response = conn.run_inference(model_name, data) # input data for inference
+print(response)
+
+```
+
+## Questions
+If you are having difficulties using this SDK or have a question about the IBM Cloud services,
+please ask a question
+[Stack Overflow](http://stackoverflow.com/questions/ask?tags=ibm-cloud).
+
+## Issues
+If you encounter an issue with the project, you are welcome to submit a
+[bug report](<github-repo-url>/issues).
+Before that, please search for similar issues. It's possible that someone has already reported the problem.
+
+## Open source @ IBM
+Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
+
+## Contributing
+See [CONTRIBUTING.md](https://github.ibm.com/CloudEngineering/python-sdk-template/blob/master/CONTRIBUTING.md).
+
+## License
+This SDK is released under the Apache 2.0 license.
+The license's full text can be found in [LICENSE](https://github.ibm.com/CloudEngineering/python-sdk-template/blob/master/LICENSE).
+
+<!-- * A complete example for [uploading, deploying and starting a model](examples/test_model_upload.py) -->
+
+<!-- ## Examples
 
 * A simple example to [verify the connection](examples/test_connection.py)
 * A complete example for [uploading, deploying and starting a model](examples/test_model_upload.py) (documentation imcomplete, ask Sherry for details) -->
