@@ -78,6 +78,26 @@ print(response)
 
 ```
 
+## Questions
+If you are having difficulties using this SDK or have a question about the IBM Cloud services,
+please ask a question
+[Stack Overflow](http://stackoverflow.com/questions/ask?tags=ibm-cloud).
+
+## Issues
+If you encounter an issue with the project, you are welcome to submit a
+[bug report](<github-repo-url>/issues).
+Before that, please search for similar issues. It's possible that someone has already reported the problem.
+
+## Open source @ IBM
+Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
+
+## Contributing
+See [CONTRIBUTING.md](https://github.ibm.com/CloudEngineering/python-sdk-template/blob/master/CONTRIBUTING.md).
+
+## License
+This SDK is released under the Apache 2.0 license.
+The license's full text can be found in [LICENSE](https://github.ibm.com/CloudEngineering/python-sdk-template/blob/master/LICENSE).
+
 <!-- * A complete example for [uploading, deploying and starting a model](examples/test_model_upload.py) -->
 
 <!-- ## Examples
