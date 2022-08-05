@@ -1,3 +1,4 @@
+import time
 from urllib import response
 from ibm_wmla_client import Connection
 import numpy as np
@@ -11,6 +12,8 @@ edi_connection = Connection(service_url, service_instance, wmla_v1=True, edi=Tru
                  apikey=None, username=username, password=password)
 
 edi_connection.connect()
+
+time.sleep(3)
 
 conn = edi_connection.service_edi
 
