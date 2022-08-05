@@ -59,22 +59,11 @@ file_handle = open(model_tar_file_path, "rb")
 result = conn.deploy_model(userfile=file_handle, timeout = 300)
 response = conn.get_model_profile(model_name)
 model_profile = response.result
-update_model_profile_parameters(model_profile, gpu_type='shared', kernel_resource_group='GPUHosts', kernel_consumer_path=kernel_consumer_path)
+update_model_profile_parameters(model_profile, 
+                                gpu_type='shared',
+                                kernel_resource_group='GPUHosts', kernel_consumer_path=kernel_consumer_path)
 print('Updated model profile: ', model_profile)
-
-kernel = model_profile['kernel']
-name = model_profile['name']
-type = model_profile['type']
-policy = model_profile['policy']
-replica = model_profile['replica']
-resource_allocation = model_profile['resource_allocation']
-schema_version = model_profile['schema_version']
-create_time = model_profile['create_time']
-last_update_time = model_profile['last_update_time']
-
-response = conn.update_model_profile(model_name, kernel = kernel, name = name,
-policy = policy, replica = replica, resource_allocation = resource_allocation, schema_version = schema_version, type = type, create_time = create_time, last_update_time = last_update_time)
-
+response = conn.update_model_profile(model_name, **model_profile)
 response = conn.get_model_profile(model_name)
 response = conn.start_model_inference(model_name)
 response = conn.get_model(model_name)
