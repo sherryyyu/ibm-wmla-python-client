@@ -30,7 +30,7 @@ class Connection(object):
                 self.service_dli.set_service_url(self.url)
             else:
                 print("Connecting to EDI")
-                edi_authenticator = ElasticDistributedInferenceAuthenticator(self.user, self.password, self.user_access_token, self.url)
+                edi_authenticator = ElasticDistributedInferenceAuthenticator(self.user, self.password, self.user_access_token, self.url, disable_ssl_verification = True)
                 print("EDI Token created")
                 self.service_edi = ElasticDistributedInferenceV2(
                         authenticator=edi_authenticator)
