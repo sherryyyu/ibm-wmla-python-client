@@ -128,4 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-.DS_Store
+# MacOS file (Desktop Services Store)
+.DS_Store 
+
+# Pycharm environemt directory
+.idea
+
+.ipynb_checkpoints/

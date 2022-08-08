@@ -6,8 +6,9 @@ import time
 
 service_url = "http://wmla-mgmt1.sls30lab.com:9000"
 service_instance = "ANZ-DLI-IG"
-username = "jbtang"
-password = "demoexec"
+
+username = "username"
+password = "password"
 
 edi_connection = Connection(service_url, service_instance, wmla_v1=True, edi=True,
                  apikey=None, username=username, password=password)
@@ -33,21 +34,23 @@ def start_model(model_name):
     file_handle = open("mnist_example/mnist.tar", "rb")
     result = conn.deploy_model(userfile = file_handle, timeout = 300)
 
+    # response = conn.get_model_profile(model_name)
+    # model_profile = response.result
 
-    response = conn.get_model_profile(model_name)
-    model_profile = response.result
+    # update_model_profile_parameters(model_profile,
+    #                 'shared', 'GPUHosts',
+    #                 '/ANZ/ANZ-DLI-IG/ANZ-DLI-IG-sparkexecutor/ANZ-DLI-IG-sparkexecutor1')
 
-    update_model_profile_parameters(model_profile,
-                    'shared', 'GPUHosts',
-                    '/ANZ/ANZ-DLI-IG/ANZ-DLI-IG-sparkexecutor/ANZ-DLI-IG-sparkexecutor1')
 
     response = conn.update_model_profile(model_name, model_profile)
 
-    response = conn.get_model_profile(model_name)
 
-    response = conn.start_model_inference(model_name)
-    response = conn.get_model(model_name)
-    print(response.result)
+    # response = conn.get_model_profile(model_name)
+
+    # response = conn.start_model_inference(model_name)
+    # response = conn.get_model(model_name)
+    # print(response.result)
+    print(result)
 
 
     response = conn.get_model_instance(model_name)
@@ -69,7 +72,7 @@ def infer(model_name):
 
 
 # delete_model(model_name)
-# start_model(model_name)
+start_model(model_name)
 
 # response = conn.get_model(model_name)
 # print(response.result)
@@ -80,9 +83,11 @@ def infer(model_name):
 response = conn.get_model_profile(model_name)
 model_profile = response.result
 
+
 update_model_profile_parameters(model_profile,
                 'shared', 'GPUHosts',
                 '/ANZ/ANZ-DLI-IG/ANZ-DLI-IG-sparkexecutor/ANZ-DLI-IG-sparkexecutor1')
 response = conn.update_model_profile(model_name, model_profile)
 print(response)
+
 # infer(model_name)

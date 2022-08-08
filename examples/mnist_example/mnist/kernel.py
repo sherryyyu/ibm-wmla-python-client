@@ -11,8 +11,6 @@ class TestKernel(Kernel):
     def on_kernel_start(self, kernel_context):
         try:
             Kernel.log_info("kernel input: " + kernel_context.get_model_description())
-
-
             
             model_desc = json.loads(kernel_context.get_model_description())
             model_path = model_desc['model_path']
