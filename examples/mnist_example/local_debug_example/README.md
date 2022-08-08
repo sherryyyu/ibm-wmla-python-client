@@ -22,6 +22,16 @@ Replace `from redhareapi import Kernel` with `from ibm_wmla_client.redhareapi im
 ## How to run on local computer
 The following input.json, model.json, and model weight(ex. mnist_model.h5) are required in the same folder.
 ```
+.
+├── local_debug_example
+│   ├── README.md
+│   ├── input.json
+│   ├── kernel.py
+│   ├── mnist_model.h5
+│   └── model.json
+```
+
+```
 cd wmla-python-client/examples/mnist_example/local_debug_example
 python kernel.py
 ```
