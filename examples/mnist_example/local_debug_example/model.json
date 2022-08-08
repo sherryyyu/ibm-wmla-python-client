@@ -1,0 +1,8 @@
+{
+    "name" : "mnisttest",
+    "tag" : "test",
+    "weight_path" : "mnist_model.h5",
+    "runtime" : "dlipy3",
+    "kernel_path" : "kernel.py",
+    "schema_version" : "1"
+}
