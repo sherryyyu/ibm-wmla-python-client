@@ -51,10 +51,6 @@ model_tar_file_path = "MODEL_TAR_FILE_PATH"
 kernel_consumer_path = "KERNEL_CONSUMER_PATH"
 
 # Delete model
-'''
-- Stop a model: a) we need to stop a model before we delete a model; b) stopping a model doesn't mean it's deleted from WMLA, you can restart by start_model()
-- Delete a model: a) permanently deleting a model from WMLA b) to upload again, you'll have to deploy_model()
-'''
 conn.stop_model_inference(model_name) # stop a specific model
 conn.delete_model(model_name) # delete a specific model
 
@@ -80,7 +76,22 @@ data = {'id': 0, 'data': x_test}
 response = conn.run_inference(model_name, data) # input data for inference
 print(response)
 
+
 ```
+Stop a model
+* we need to stop a model before we delete a model
+* it doesn't mean the model is deleted from WMLA
+* you can restart by start_model() after stopping the model
+
+Delete a model
+* it permanently delete a model from WMLA 
+* to upload again, you'll have to deploy_model()
+
+<!-- Deploy a model: 
+
+Update a model: -->
+
+
 
 ## Questions
 If you are having difficulties using this SDK or have a question about the IBM Cloud services,
