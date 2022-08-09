@@ -9,7 +9,7 @@ python = "^3.9"
 requests = "^2.20"
 python_dateutil = "^2.5.3"
 ibm-cloud-sdk-core = "^3.15.3"
-ibm-wmla = "^0.1.0"
+ibm-wmla = "^0.1.1"
 numpy = "^1.23"
 
 [tool.poetry.dev-dependencies]
