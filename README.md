@@ -107,7 +107,7 @@ conn.delete_model(model_name)
 
 Update a model: -->
 
-## Resource
+## Resources
 
 - [Installation instructions](cp4d_install) for the IBM Cloud Pak for Data WMLA Cartridge environment 
 - [MNIST example](examples/mnist)
