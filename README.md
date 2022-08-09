@@ -9,21 +9,23 @@ A python based client to simplify using Watson Machine Learning Accelerator
 
 ## Installation 
 
-To install the package for debugging (recommended for now):
+To install the package for debugging:
 
 ```
+pip install requirements.txt
 python setup.py develop
 ```
 
 To install the package:
 
 ```
+pip install requirements.txt
 pip install .
 ```
 
 ## Setting up WMLA service
 ```python
-from ibm_wmla_client import Connection, update_model_profile_parameters
+from ibm_wmla_client import Connection
 
 service_url = "YOUR_SERVICE_URL:PORT"
 service_instance = "YOUR_INSTANCE_NAME"
@@ -39,7 +41,6 @@ conn = edi_connection.service_edi
 
 # List models
 response = conn.get_models()
-print(response.result)
 
 ```
 <!-- * A simple example to [verify the connection](examples/test_connection.py) -->
@@ -50,46 +51,68 @@ model_name = "MODEL_NAME"
 model_tar_file_path = "MODEL_TAR_FILE_PATH"
 kernel_consumer_path = "KERNEL_CONSUMER_PATH"
 
-# Delete model
-conn.stop_model_inference(model_name) # stop a specific model
-conn.delete_model(model_name) # delete a specific model
-
 # Start model
 file_handle = open(model_tar_file_path, "rb")
-result = conn.deploy_model(userfile=file_handle, timeout = 300) # upload model package files
-response = conn.get_model_profile(model_name) # get application profile for a specific model
+
+# upload model package files
+result = conn.deploy_model(userfile=file_handle, timeout = 300) 
+
+# get application profile for a specific model
+response = conn.get_model_profile(model_name) 
 model_profile = response.result
-update_model_profile_parameters(model_profile, 
-                                gpu_type='shared',
-                                kernel_resource_group='GPUHosts',
-                                kernel_consumer_path=kernel_consumer_path)
-print(model_profile)
-response = conn.update_model_profile(model_name, **model_profile) # update application profile for a specific model
-response = conn.start_model_inference(model_name) # start a specific model
-response = conn.get_model(model_name) # get a specific model
-print(response.result)
-response = conn.get_model_instance(model_name) # get a specific model instance information
-print(response.result)
+
+# change GPU type
+model_profile['kernel']['gpu'] = gpu_type
+
+# update application profile for a specific model
+response = conn.update_model_profile(model_name, model_profile) 
+
+# start a specific model
+response = conn.start_model_inference(model_name) 
+
+# check the model parameters
+response = conn.get_model(model_name) 
+
+# check the model status
+response = conn.get_model_instance(model_name) instance information
 
 # Infer
-data = {'id': 0, 'data': x_test}
-response = conn.run_inference(model_name, data) # input data for inference
-print(response)
-
+data = {'id': 0, 'data': x_test} # input data for inference
+response = conn.run_inference(model_name, data) 
 
 ```
-Stop a model
-* we need to stop a model before we delete a model
-* it doesn't mean the model is deleted from WMLA
-* you can restart by start_model() after stopping the model
 
-Delete a model
-* it permanently delete a model from WMLA 
-* to upload again, you'll have to deploy_model()
+## Model clean up
+
+To stop a model: 
+```
+conn.stop_model_inference(model_name)
+```
+
+* You need to stop a model before we delete a model
+* It doesn't mean the model is deleted from WMLA
+* You can restart by `start_model_inference` after stopping the model
+
+
+
+To delete a model:
+```
+conn.delete_model(model_name)
+```
+
+* It permanently delete a model from WMLA 
+* To upload again, you'll have to redeploy the mode with `deploy_model`
 
 <!-- Deploy a model: 
 
 Update a model: -->
+
+## Resource
+
+- [Installation instructions](cp4d_install) for the IBM Cloud Pak for Data WMLA Cartridge environment 
+- [MNIST example](examples/mnist)
+- How to [debug on your local machine](examples/local_debug_example)
+- Simple Python scripts for making WMLA EDI [connections](examples/connection_example.py) and [deploying a model](examples/model_upload_example.py)
 
 
 

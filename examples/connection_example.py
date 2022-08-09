@@ -1,3 +1,12 @@
+'''
+Author:
+    Sherry Yu (shuang.yu@ibm.com)
+Initial Version:
+    Aug-2022
+Function:
+   A simple script showing how to connect to WMLA.
+'''
+
 import time
 from urllib import response
 from ibm_wmla_client import Connection
@@ -21,7 +30,7 @@ conn = edi_connection.service_edi
 
 print(conn.get_models())
 
-model_name = "pingpongnew"
+model_name = "pingpong"
 
 print(conn.get_model(model_name))
 
