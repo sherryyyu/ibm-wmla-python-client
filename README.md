@@ -76,7 +76,22 @@ data = {'id': 0, 'data': x_test}
 response = conn.run_inference(model_name, data) # input data for inference
 print(response)
 
+
 ```
+Stop a model
+* we need to stop a model before we delete a model
+* it doesn't mean the model is deleted from WMLA
+* you can restart by start_model() after stopping the model
+
+Delete a model
+* it permanently delete a model from WMLA 
+* to upload again, you'll have to deploy_model()
+
+<!-- Deploy a model: 
+
+Update a model: -->
+
+
 
 ## Questions
 If you are having difficulties using this SDK or have a question about the IBM Cloud services,
