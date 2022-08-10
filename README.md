@@ -114,6 +114,7 @@ Update a model: -->
 - How to [debug on your local machine](examples/mnist_example/local_debug_example)
 - Simple Python scripts for making WMLA EDI [connections](examples/connection_example.py) and [deploying a model](examples/model_upload_example.py)
 - Example [Jupyter Notebooks](notebooks) for the WMLA CP4D cartridge environment 
+- [How to write kernel.py](examples/README.md)
 
 
 
