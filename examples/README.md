@@ -95,14 +95,14 @@ class TestKernel(Kernel):
         try:
             Kernel.log_info("kernel input: " + kernel_context.get_model_description())
 
-
-            
+            # load model.json
             model_desc = json.loads(kernel_context.get_model_description())
             model_path = model_desc['model_path']
             if model_path == '':
                 model_path = os.getcwd()
             Kernel.log_info("currect dir" + os.getcwd())
-
+            
+            # get model path
             model_path = model_path + '/' + model_desc['weight_path']
 
             # load the keras model
