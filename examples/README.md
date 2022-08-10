@@ -90,7 +90,7 @@ Executes a loop as much as the batch size by returning the instance decremented 
 Finally, `kernel.py` should look like: 
 
 ```python
-class TestKernel(Kernel):
+class ModelKernel(Kernel):
     def on_kernel_start(self, kernel_context):
         try:
             Kernel.log_info("kernel input: " + kernel_context.get_model_description())
@@ -146,7 +146,7 @@ class TestKernel(Kernel):
             Kernel.log_error(str(e))
 
 if __name__ == '__main__':
-    ppkernel = TestKernel()
+    ppkernel = ModelKernel()
     ppkernel.run()
 ```
 
