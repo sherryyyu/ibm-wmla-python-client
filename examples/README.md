@@ -55,3 +55,12 @@ task_context = task_context.next()
 ```
 
 Executes a loop as much as the batch size by returning instances decremented by 1 in `task_context.next()` function until batch becomes 0.
+
+## model.json
+The weight path should be included in model.json to run kernel.py as follows:
+
+```json
+{
+    "weight_path" : "mnist_model.h5",
+}
+```
