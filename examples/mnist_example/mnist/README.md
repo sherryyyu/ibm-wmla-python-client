@@ -2,9 +2,8 @@
 
 ## Summary
 
-This is a MNIST model that classifies hand-written digits.
+This is a MNIST model built with Keras that classifies hand-written digits.
 
-# *** Below needs to be updated ****
 
 ## Input
 
@@ -13,7 +12,8 @@ This is a MNIST model that classifies hand-written digits.
 
 ```
 {
-    "data" : "12345"
+    "id" : 0,
+    "data": list
 }
 ```
 
@@ -22,37 +22,20 @@ This is a MNIST model that classifies hand-written digits.
 * Output body (if there is no error)
 ```
 {
-    "data" : "12345"
+    'key': 0, 
+    'data': [[-5.415988922119141, -17.939651489257812, 0.7941587567329407, 5.815486431121826, -24.95937728881836, 9.760404586791992, -0.9046012163162231, -1.0441383123397827, 1.9513847827911377, -3.5598299503326416]]
 }
 ```
 
 ## Caller example
 
-### WML-A 2.3.x
-- 1, first to get the token for inference
-```
-oc project ${wmla-ns}
-WMLA_CONSOLE_FQDN=$(oc get route wmla-console -o jsonpath='{.spec.host}')
-curl -k -u user:password -X POST https://${WMLA_CONSOLE_FQDN}/dlim/v1/auth/token
-{"access_token":"${YOUR_TOKEN}", "service_token": "${INFERENCE_TOKEN}"}
-```
-- 2, send a Restful inference request to EDI
-```
-oc project ${wmla-ns}
-WMLA_INFERENCE_FQDN=$(oc get route wmla-inference -o jsonpath='{.spec.host}')
-curl -k -H "X-Auth-Token: ${INFERENCE_TOKEN}" -d '{"data":"xxxxx", "seq":1}' -X POST https://${WMLA_INFERENCE_FQDN}/dlim/v1/inference/pingpong
-{"data": "xxxxx", "seq": 1}
-```
 
-### WML-A 1.2.3
-- 1, first to get the token for inference
-```
-curl -k -u user:passwd -X POST https://${YOUR_FQDN}:9000/dlim/v1/auth/token
-{"access_token":"${YOUR_TOKEN}", "service_token": "${INFERENCE_TOKEN}"}
-```
-- 2, send a Restful inference request to EDI
-```
-curl -k -H "X-Auth-Token: ${INFERENCE_TOKEN}" -d '{"data":"xxxxx", "seq":1}' -X POST https://${YOUR_FQDN}:9000/dlim/v1/inference/pingpong
-{"data": "xxxxx", "seq": 1}
-```
+```python
+img_shape = (28, 28, 1)
+x_test = np.random.random_sample((1,) + img_shape)
+x_test = x_test.tolist()
 
+data = {'id': 0, 'data': x_test}
+
+response = conn.run_inference(model_name, data)
+```
