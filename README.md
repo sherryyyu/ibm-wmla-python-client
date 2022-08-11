@@ -74,7 +74,7 @@ response = conn.start_model_inference(model_name)
 response = conn.get_model(model_name) 
 
 # check the model status
-response = conn.get_model_instance(model_name) instance information
+response = conn.get_model_instance(model_name) 
 
 # Infer
 data = {'id': 0, 'data': x_test} # input data for inference
