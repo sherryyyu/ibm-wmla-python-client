@@ -51,7 +51,7 @@ model_name = "MODEL_NAME"
 model_tar_file_path = "MODEL_TAR_FILE_PATH"
 kernel_consumer_path = "KERNEL_CONSUMER_PATH"
 
-# Start model
+# Load the model package tar file
 file_handle = open(model_tar_file_path, "rb")
 
 # upload model package files
