@@ -64,6 +64,9 @@ model_profile = response.result
 # change GPU type
 model_profile['kernel']['gpu'] = gpu_type
 
+# adjust memory profile
+model_profile['resource_allocation']['kernel']['resources'] = 'ncpus=0.5,ncpus_limit=4,mem=1024,mem_limit=4096'
+
 # update application profile for a specific model
 response = conn.update_model_profile(model_name, model_profile) 
 
