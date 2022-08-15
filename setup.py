@@ -19,7 +19,7 @@ import os
 import sys
 import pkg_resources
 
-__version__ = '0.0.1'
+__version__ = '0.1.3'
 PACKAGE_NAME = 'ibm_wmla_client'
 PACKAGE_DESC = 'Python client library for IBM Watson Machine Learning Accelerater'
 

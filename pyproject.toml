@@ -2,7 +2,7 @@
 name = "ibm_wmla_client"
 version = "0.1.3"
 description = ""
-authors = ["Shuang Yu <shuang.yu@ibm.com>", "Kiyeon Jeon <Kiyeon.Jeon@ibm.com>", "Hyun Tae Kim <Hyuntae.Kim1@ibm.com>"]
+authors = ["Shuang Yu <shuang.yu@ibm.com>", "Kiyeon Jeon <Kiyeon.Jeon@ibm.com>", "Hyun Tae Kim <Hyuntae.Kim1@ibm.com>", "Adam Makarucha <adamjm@au1.ibm.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
