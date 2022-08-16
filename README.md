@@ -1,5 +1,5 @@
 # wmla-python-client
-A python based client to simplify using Watson Machine Learning Accelerator 
+A python based client to simplify using Watson Machine Learning Accelerator Elastic Distributed Inference (WMLA EDI)
 
 ## Prerequisites
 
