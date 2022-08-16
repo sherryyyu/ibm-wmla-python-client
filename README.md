@@ -4,7 +4,7 @@ A python based client to simplify using Watson Machine Learning Accelerator Elas
 ## Prerequisites
 
 * Python 3.5.3 or above.
-* [ibm_wmla](https://github.ibm.com/anz-tech-garage/wmla-python-sdk)
+* [ibm_wmla](https://github.com/sherryyyu/ibm-wmla-python-sdk)
 
 
 ## Installation 
