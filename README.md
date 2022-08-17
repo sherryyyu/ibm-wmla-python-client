@@ -51,7 +51,7 @@ model_name = "MODEL_NAME"
 model_tar_file_path = "MODEL_TAR_FILE_PATH"
 kernel_consumer_path = "KERNEL_CONSUMER_PATH"
 
-# Load the model package tar file
+# load the model package tar file
 file_handle = open(model_tar_file_path, "rb")
 
 # upload model package files
@@ -79,7 +79,7 @@ response = conn.get_model(model_name)
 # check the model status
 response = conn.get_model_instance(model_name) 
 
-# Infer
+# infer
 data = {'id': 0, 'data': x_test} # input data for inference
 response = conn.run_inference(model_name, data) 
 
@@ -88,7 +88,7 @@ response = conn.run_inference(model_name, data)
 ## Model clean up
 
 To stop a model: 
-```
+```python
 conn.stop_model_inference(model_name)
 ```
 
@@ -99,12 +99,36 @@ conn.stop_model_inference(model_name)
 
 
 To delete a model:
-```
+```python
 conn.delete_model(model_name)
 ```
 
 * It permanently delete a model from WMLA 
 * To upload again, you'll have to redeploy the mode with `deploy_model`
+
+
+## Runtime creation and update
+```python
+runtime_name = "RUNTIME_NAME"
+
+# list all runtimes
+response = conn.get_runtimes()
+
+# get a runtime detail
+runtime_detail = conn.get_runtime_details(runtime_name).result
+
+# create a new runtime
+response = conn.new_runtime(new_runtime_detail)
+
+# update a runtime detail
+runtime_detail['conda_env_name'] = 'new_conda_env' # change the Conda environment
+response = conn.update_runtime(runtime_name, runtime_detail)
+
+# delete a runtime
+response = conn.delete_runtime(runtime_name)
+```
+
+
 
 <!-- Deploy a model: 
 
