@@ -14,8 +14,8 @@ from ibm_wmla_client import Connection, update_model_profile_parameters
 import numpy as np
 import time
 
-service_url = "http://wmla-mgmt1.sls30lab.com:9000"
-service_instance = "ANZ-DLI-IG"
+service_url = "<URL>"
+service_instance = "<SERVICE_INSTANCE_NAME>"
 
 username = "username"
 password = "password"
