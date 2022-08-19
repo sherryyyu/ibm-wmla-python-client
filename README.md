@@ -9,18 +9,27 @@ A python based client to simplify using Watson Machine Learning Accelerator Elas
 
 ## Installation 
 
-To install the package for debugging:
+### Install with `pip`
 
-```
-pip install requirements.txt
-python setup.py develop
+```bash
+pip install ibm-wmla-client
 ```
 
-To install the package:
+### Install from source
 
-```
+To install the package from source, clone the repository and 
+
+```bash
+cd ibm-wmla-python-client
 pip install requirements.txt
 pip install .
+```
+To install for debugging:
+
+```bash
+cd ibm-wmla-python-client
+pip install requirements.txt
+python setup.py develop
 ```
 
 ## Setting up WMLA service
